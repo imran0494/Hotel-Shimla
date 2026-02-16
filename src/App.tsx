@@ -14,13 +14,12 @@ export default function App() {
 
   return (
     <div>
-      <header className="bg-[#1a8a5d] backdrop-blur-md shadow-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <header className="relative bg-[#1a8a5d] backdrop-blur-md shadow-xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-2 md:py-3 flex items-center justify-between">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-semibold tracking-wide text-white
- hover:text-amber-300 transition"
+            className="text-2xl font-semibold tracking-wide text-white hover:text-amber-300 transition"
           >
             Hotel <span className="text-amber-300">Shimla</span>
           </Link>
@@ -28,25 +27,28 @@ export default function App() {
           {/* Hamburger (Mobile) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-2xl"
+            className="md:hidden text-2xl p-1 rounded focus:outline-none focus:ring-2 focus:ring-white/30"
+            aria-expanded={isOpen}
+            aria-label="Toggle menu"
           >
             ☰
           </button>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation (unchanged, desktop only) */}
           <nav
             className="hidden md:flex items-center gap-10 text-sm font-medium 
-          bg-[#173F2F] text-white pl-8 px-2 py-2 rounded-full shadow-lg border border-white/10"
+      bg-[#173F2F] text-white pl-6 pr-3 py-2 rounded-full shadow-lg border border-white/10"
+            aria-label="Main navigation"
           >
-            <Link to="/" className="group  transition">
+            <Link to="/" className="group transition">
               <AnimatedNavItem>Home</AnimatedNavItem>
             </Link>
 
-            <Link to="/about" className="group  transition">
+            <Link to="/about" className="group transition">
               <AnimatedNavItem>About</AnimatedNavItem>
             </Link>
 
-            <Link to="/contact" className="group  transition">
+            <Link to="/contact" className="group transition">
               <AnimatedNavItem>Contact Us</AnimatedNavItem>
             </Link>
 
@@ -58,15 +60,14 @@ export default function App() {
             >
               <AnimatedNavItem>Location</AnimatedNavItem>
 
-              <a className="group flex items-center gap-2">
-                <span className="inline-flex items-center justify-center">
-                  <img
-                    src={mapIcon}
-                    alt="location"
-                    className="w-6 h-6 transition-transform duration-300 ease-out transform group-hover:scale-125 group-hover:-translate-y-1"
-                  />
-                </span>
-              </a>
+              {/* icon should not be a nested anchor - use span */}
+              <span className="inline-flex items-center justify-center">
+                <img
+                  src={mapIcon}
+                  alt="location"
+                  className="w-6 h-6 transform transition duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-1"
+                />
+              </span>
             </a>
 
             <a
@@ -80,64 +81,66 @@ export default function App() {
           </nav>
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Dropdown - absolutely positioned so it doesn't change header size */}
         <div
-          className={`md:hidden px-6 pb-4 transition-all duration-300 ${
-            isOpen
-              ? "max-h-[500px] opacity-100"
-              : "max-h-0 opacity-0 overflow-hidden"
-          }`}
+          className={`md:hidden absolute left-0 right-0 z-40 flex justify-center transition-all duration-300`}
           aria-hidden={!isOpen}
+          style={{ pointerEvents: isOpen ? "auto" : "none" }}
         >
-          <div className="bg-[#1f1f1f] text-white rounded-2xl p-6 flex flex-col gap-6 shadow-xl">
-            <Link to="/" className="group" onClick={() => setIsOpen(false)}>
-              <AnimatedNavItem>Home</AnimatedNavItem>
-            </Link>
+          {/* this inner box is centered and narrow so it doesn't feel huge */}
+          <div
+            className={`mx-4 w-full max-w-lg transform origin-top ${
+              isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"
+            } transition-all duration-250`}
+          >
+            <div className="bg-[#1f1f1f] text-white rounded-2xl p-4 flex flex-col gap-4 shadow-xl">
+              <Link to="/" className="group" onClick={() => setIsOpen(false)}>
+                <AnimatedNavItem>Home</AnimatedNavItem>
+              </Link>
 
-            <Link
-              to="/about"
-              className="group"
-              onClick={() => setIsOpen(false)}
-            >
-              <AnimatedNavItem>About</AnimatedNavItem>
-            </Link>
+              <Link
+                to="/about"
+                className="group"
+                onClick={() => setIsOpen(false)}
+              >
+                <AnimatedNavItem>About</AnimatedNavItem>
+              </Link>
 
-            <Link
-              to="/contact"
-              className="group"
-              onClick={() => setIsOpen(false)}
-            >
-              <AnimatedNavItem>Contact Us</AnimatedNavItem>
-            </Link>
+              <Link
+                to="/contact"
+                className="group"
+                onClick={() => setIsOpen(false)}
+              >
+                <AnimatedNavItem>Contact Us</AnimatedNavItem>
+              </Link>
 
-            <a
-              href="https://maps.app.goo.gl/rk49GZSnVmdKTJEk6"
-              target="_blank"
-              rel="noreferrer"
-              className="group flex items-center gap-2"
-            >
-              <AnimatedNavItem>Location</AnimatedNavItem>
-
-              <a className="group flex items-center gap-2">
+              <a
+                href="https://maps.app.goo.gl/rk49GZSnVmdKTJEk6"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-3"
+                onClick={() => setIsOpen(false)}
+              >
+                <AnimatedNavItem>Location</AnimatedNavItem>
                 <span className="inline-flex items-center justify-center">
                   <img
                     src={mapIcon}
                     alt="location"
-                    className="w-6 h-6 transition-transform duration-300 ease-out transform group-hover:scale-125 group-hover:-translate-y-1"
+                    className="w-6 h-6 transform transition duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-1"
                   />
                 </span>
               </a>
-            </a>
 
-            <a
-              href={`https://wa.me/${hotelPhone}?text=Hi%20I%20want%20to%20book%20a%20room`}
-              target="_blank"
-              rel="noreferrer"
-              className="group bg-white text-black px-4 py-2 rounded-full text-center font-semibold hover:bg-green-400"
-              onClick={() => setIsOpen(false)}
-            >
-              <AnimatedNavItem>Book Now</AnimatedNavItem>
-            </a>
+              <a
+                href={`https://wa.me/${hotelPhone}?text=Hi%20I%20want%20to%20book%20a%20room`}
+                target="_blank"
+                rel="noreferrer"
+                className="group bg-white text-black px-4 py-2 rounded-full text-center font-semibold hover:bg-green-400"
+                onClick={() => setIsOpen(false)}
+              >
+                <AnimatedNavItem>Book Now</AnimatedNavItem>
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -199,8 +202,14 @@ function Home({ hotelPhone }: { hotelPhone: string }) {
 
 function AnimatedNavItem({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block transition-transform duration-300 ease-out group-hover:scale-130">
-      {children}
+    <span className="relative inline-block px-1">
+      <span className="relative z-10 inline-block transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-105">
+        {children}
+      </span>
+      <span
+        className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-amber-300 rounded-full transition-all duration-300 ease-out group-hover:w-full"
+        aria-hidden="true"
+      />
     </span>
   );
 }
