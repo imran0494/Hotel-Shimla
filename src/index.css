@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Keep your existing Tailwind @tailwind directives above this */
+/* --- Swiper pagination centered for room cards --- */
+
+/* Ensure this is placed after Tailwind's @tailwind directives */
+
+/* Room swiper pagination centered */
+.room-swiper {
+  position: relative;
+}
+
+/* center pagination horizontally and lift above image */
+.room-swiper .swiper-pagination {
+  position: absolute;
+  bottom: 10px !important;
+  left: 90% !important;
+  transform: translateX(-50%) !important;
+  z-index: 25;
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+/* bullets style */
+.room-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: white;
+  opacity: 0.85;
+  border-radius: 9999px;
+}
+
+/* active bullet */
+.room-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.15);
+}
